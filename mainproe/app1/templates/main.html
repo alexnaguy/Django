@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+
+    <body>
+        <h1> 
+            Добро пожаловать! Это город {{ name }}
+        </h1>
+        <ul>
+            <li><a href={% url 'main' %}> Главная </li>
+            <li><a href={% url 'news' %}> Новости </li>
+            <li><a href={% url 'managers' %}> Руководство города </li>
+            <li><a href={% url 'facts' %}> Факты о городе </li>
+            <li><a href={% url 'contacts' %}> Контакты городских служб </li>
+            <li><a href={% url 'history' %}> История города
+                <ul>
+                    <li><a href={% url 'people' %}> Великие люди города </li>
+                    <li><a href={% url 'photos' %}> Исторические фотографии</li>
+                 </ul>
+            
+            </li>
+
+        </ul> 
+    </body>
+</html>

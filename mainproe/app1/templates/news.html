@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+
+    <body>
+        <h1> Добро пожаловать! Это новости города Ярославля</h1>
+        <ul>
+            {% for element in news_list %}
+                <li>{{ element}}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
