@@ -1,0 +1,8 @@
+h1.header {
+    color: violet;
+    background-image: url('../images/background.png');
+}
+
+.menu li a:hover{
+    color: #198754 !important;
+}
