@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" />
+        <link rel="stylesheet" href="{% static "css/styles.css" %}" />
+    </head>
+
+    <body>
+        <div class="container mt-3">
+        <form action="{% url 'end' %}" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="exampleInputName" class="form-label">Имя</label>
+              <input type="text" name="name" class="form-control" id="exampleInputName" aria-describedby="nameHelp">
+            </div>
+
+            <div class="mb-3">
+              <label for="exampleInputFamily" class="form-label">Фамилия</label>
+              <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+              <div style="color: red;" id="emailHelp" class="form-text">{{ error }}</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="exampleInputFamily" class="form-label">Возраст</label>
+              <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+              <div style="color: red;" id="emailHelp" class="form-text">{{ error }}</div>
+            </div>
+
+
+
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Запомнить меня</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Войти</button>
+          </form>
+        </div>
+    </body>
+</html>
