@@ -22,6 +22,6 @@ from app_forms.views import FormManage
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('autoriz/',FormManage.authorization ),
-    path('end/',FormManage.end, name="end" ),
+    path('show/',FormManage.show_data, name="show" ),
 
 ]

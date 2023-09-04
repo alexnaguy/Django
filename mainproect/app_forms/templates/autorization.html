@@ -4,12 +4,13 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" />
-        <link rel="stylesheet" href="{% static "css/styles.css" %}" />
+         <h3 align="center"> Регистрация пользователя   </h3>
     </head>
 
     <body>
+       
         <div class="container mt-3">
-        <form action="{% url 'end' %}" method="post">
+        <form action="{% url 'show' %}" method="post">
             {% csrf_token %}
             <div class="mb-3">
               <label for="exampleInputName" class="form-label">Имя</label>
@@ -17,14 +18,32 @@
             </div>
 
             <div class="mb-3">
-              <label for="exampleInputFamily" class="form-label">Фамилия</label>
-              <input type="password" name="password" class="form-control" id="exampleInputPassword1">
-              <div style="color: red;" id="emailHelp" class="form-text">{{ error }}</div>
+              <label for="exampleInputLastname" class="form-label">Фамилия</label>
+              <input type="text" name="lastname" class="form-control" id="exampleInputLastname">
+              
             </div>
 
             <div class="mb-3">
               <label for="exampleInputFamily" class="form-label">Возраст</label>
-              <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+              <input type="age" name="age" class="form-control" id="exampleInputPassword1">
+              
+            </div>
+
+            <div class="mb-3">
+              <label for="exampleInputEmail" class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" id="exampleInputEmail">
+              <div style="color: red;" id="emailHelp" class="form-text">{{ error }}</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="exampleInputFamily" class="form-label">Пол</label>
+              <input type="text" name="gender" class="form-control" id="exampleInputPassword1">
+              
+            </div>
+
+            <div class="mb-3">
+              <label for="exampleInputFamily" class="form-label">Адрес</label>
+              <input type="text" name="adress" class="form-control" id="exampleInputPassword1">
               <div style="color: red;" id="emailHelp" class="form-text">{{ error }}</div>
             </div>
 
@@ -32,9 +51,9 @@
 
             <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Запомнить меня</label>
+              <label class="form-check-label" for="exampleCheck1">Подписать на новости нашего интернет магазина</label>
             </div>
-            <button type="submit" class="btn btn-primary">Войти</button>
+            <button type="submit" class="btn btn-success">Зарегистрироваться</button>
           </form>
         </div>
     </body>
