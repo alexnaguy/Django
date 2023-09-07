@@ -9,21 +9,23 @@
 
     <body>
        
+       
         <div class="container mt-3">
         <form action="{% url 'show' %}" method="post">
             {% csrf_token %}
-            <div class="mb-3">
+
+            <div  class="col-sm-6">
               <label for="exampleInputName" class="form-label">Имя</label>
               <input type="text" name="name" class="form-control" id="exampleInputName" aria-describedby="nameHelp" placeholder = "Введите имя">
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3" class="col-sm-6">
               <label for="exampleInputLastname" class="form-label">Фамилия</label>
               <input type="text" name="lastname" class="form-control" id="exampleInputLastname" placeholder = "Введите фамилию">
               
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3" class="col-sm-6">
               <label for="exampleInputFamily" class="form-label">Возраст</label>
               <input type="age" name="age" class="form-control" id="exampleInputPassword1" placeholder = "Введите возраст от 16 до 100">
               

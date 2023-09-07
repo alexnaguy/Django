@@ -29,4 +29,27 @@ class FormManage:
                                            "adress": adress
 
                                             })
+    
+
+    def auto(request):
+        return render(request, 'my_form.html')
+    
+
+    def get_info(request):
+
+        brand = request.POST.get("brand")
+        model = request.POST.get("model")
+        price_one = request.POST.get("price_one")
+        price_two = request.POST.get("price_two")
+        year_one = request.POST.get("year_one")
+        year_two = request.POST.get("year_two")
+
+        return render(request,'get.html', {"brand": brand,
+                                           "model": model,
+                                           "price_one": price_one,
+                                           "price_two": price_two,
+                                           "year_one": year_one,
+                                           "year_two": year_two
+
+                                            })
                        

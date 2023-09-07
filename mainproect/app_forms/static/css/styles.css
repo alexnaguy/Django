@@ -1,6 +1,9 @@
-h1.header {
+.bg-image {
     color: violet;
-    background-image: url('../images/background.png');
+    background-image: url('https://rusargument.ru/data/photo/062218_042624342427.jpg');
+    background-repeat:no-repeat !important;
+    background-size:cover;
+    opacity: 0.5 !important;
 }
 
 .menu li a:hover{

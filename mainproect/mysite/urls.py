@@ -23,5 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('autoriz/',FormManage.authorization ),
     path('show/',FormManage.show_data, name="show" ),
+    path('auto/',FormManage.auto, name="auto" ),
+    path('get/',FormManage.get_info, name="get" ),
+
 
 ]

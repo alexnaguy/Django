@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" />
+        <link rel="stylesheet" href="{% static "css/styles.css" %}" />
+    </head>
+<body>
+    <div class text align="center">
+    <h1> Регистрация прошла успешно!  </h1>
+    <h5> Данные пользователя:  </h5>
+        <p> Марка: {{brand}}  </p>
+        <p> Модель: {{model}}  </p>
+        <p> Цена от: {{price_one}}  </p>
+        <p> Цена до: {{price_two}}  </p>
+        <p> Год от: {{year_one}}  </p>
+        <p> Год до:{{year_two}}  </p>
+       
+
+    </div>

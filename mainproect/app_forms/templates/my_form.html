@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" />
+        
+
+    </head>
+
+    <body>
+    
+        <div class="container mt-3" class="bg-image"
+         style= "background-image: url('https://rusargument.ru/data/photo/062218_042624342427.jpg');height: 1000px, width: 1000px; ">
+
+        <h3 align="center" class="text-warning bg-dark" >  Фильтр поиска   </h3>
+        <form action="{% url 'get' %}" method="post">
+            {% csrf_token %}
+
+           
+            <div  class="mb-3"  >
+
+              <label for="exampleInputName" class="form-label" >Марка</label>
+              <input type="text" name="brand" class="form-control" id="exampleInputName" aria-describedby="nameHelp" placeholder = "Введите марку автомобиля">
+            </div>
+
+            <div class="mb-3">
+              <label for="exampleInputLastname" class="form-label">Модель</label>
+              <input type="text" name="model" class="form-control" id="exampleInputLastname" placeholder = "Введите модель автомобиля">
+            </div>
+
+            <div class="row">
+                <div class="col">
+                <label for="price" class="form-label">Цена от</label>
+                  <input type="price" name="price_one"  class="form-control" >
+                </div>
+                <div class="col">
+                <label for="price" class="form-label">Цена до</label>
+                  <input type="price" name="price_two" class="form-control" >
+                </div>
+            </div>
+
+             <div class="row">
+                <div class="col">
+                <label for="year" class="form-label">Год выпуска от</label>
+                  <input type="year" name="year_one" class="form-control" >
+                </div>
+                <div class="col">
+                <label for="year" class="form-label">Год выпуска до</label>
+                  <input type="year" name="year_two" class="form-control" >
+                </div>
+            </div>
+            <br>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Подписаться на новости и обновления продукта</label>
+            </div>
+            <div align="center">
+              <button type="submit" class="btn btn-success ">Начать поиск автомобиля</button>
+            </div>
+          </form>
+        </div>
+    </body>
+</html>
