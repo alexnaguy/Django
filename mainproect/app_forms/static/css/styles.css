@@ -1,9 +1,9 @@
-.bg-image {
+.el1{
     color: violet;
-    background-image: url('https://rusargument.ru/data/photo/062218_042624342427.jpg');
-    background-repeat:no-repeat !important;
+    background-image: url(./images/car.jpg) ;
+    background-repeat:no-repeat ;
     background-size:cover;
-    opacity: 0.5 !important;
+    opacity: 0.7 ;
 }
 
 .menu li a:hover{

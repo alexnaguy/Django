@@ -8,19 +8,20 @@
 
     </head>
 
-    <body>
-    
-        <div class="container mt-3" class="bg-image"
-         style= "background-image: url('https://rusargument.ru/data/photo/062218_042624342427.jpg');height: 1000px, width: 1000px; ">
-
-        <h3 align="center" class="text-warning bg-dark" >  Фильтр поиска   </h3>
-        <form action="{% url 'get' %}" method="post">
-            {% csrf_token %}
+    <body style= "background-image:
+     url('https://mintcar.ru/wp-content/uploads/2019/04/avto-kotorye-my-uvidim-v-tretem-kvartale-2019.jpg');   
+    background-size: cover; background-repeat:no-repeat">
+       
+        
+        <div class="container mt-3" >
+         
+          <h3 align="center" class="text-warning bg-dark" >  Фильтр поиска   </h3>
+          <form action="{% url 'get' %}" method="post">
+              {% csrf_token %}
 
            
             <div  class="mb-3"  >
-
-              <label for="exampleInputName" class="form-label" >Марка</label>
+              <label for="exampleInputName" class="form-label" >Марка </label>
               <input type="text" name="brand" class="form-control" id="exampleInputName" aria-describedby="nameHelp" placeholder = "Введите марку автомобиля">
             </div>
 
@@ -51,6 +52,11 @@
                 </div>
             </div>
             <br>
+            <div class="mb-3">
+              <label for="exampleInputCity" class="form-label">Город</label>
+              <input type="text" name="city" class="form-control" id="exampleInputLastname" placeholder = "Введите город">
+            </div>
+            
             <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">Подписаться на новости и обновления продукта</label>
@@ -60,5 +66,6 @@
             </div>
           </form>
         </div>
+        
     </body>
 </html>
