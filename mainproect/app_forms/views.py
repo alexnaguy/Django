@@ -36,6 +36,7 @@ class FormManage:
         year_one = request.POST.get("year_one")
         year_two = request.POST.get("year_two")
         city = request.POST.get("city")
+
         filter_data = FilterData(
             brand,
             model,
@@ -47,9 +48,28 @@ class FormManage:
         )
         filter_one = FilterAvitoCar('https://www.avito.ru/', filter_data)
         # Должен активировать все методы класса FilterAvitoCar:
+        # Собрал все методы WebdriverChrome
         filter_one.activate_browser()
+
         filter_one.search_button_input()
-        filter_one.change_city_search()
+        #filter_one.change_city_search()
+        filter_one.input_price_from_filter()
+        filter_one.input_price_to_filter()
+        filter_one.input_year_release_from_filter()
+        filter_one.input_year_release_to_filter()
+        filter_one.change_number_owners()
+        #filter_one.change_private_ads()
+        filter_one.search_button_show_ads()
+        # В этом методе я получу новый url-адрес
+        url = filter_one.switch_url_avito()
+
+        #Создаем объект Парсинга
+        parsing_one = AvitoParse(url)
+        parsing_one.parse()
+
+
+
+
 
         return render(request, 'get.html', {"brand": brand,
                                             "model": model,
@@ -63,6 +83,7 @@ class FormManage:
 
 class FilterData:
     def __init__(self, brand, model, price_one, price_two, year_one, year_two, city):
+
         self.brand = brand
         self.model = model
         self.price_one = price_one
@@ -214,7 +235,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
         # Нашли кнопку ввода марки и модели автомобиля
         input = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='search-form/suggest']")
         # Ввели в поисковик марку и модель автомобиля (Renault Logan)
-        input.send_keys(self.filter_data.brand)
+        input.send_keys(self.filter_data.brand + " " + self.filter_data.model)
         input.send_keys(Keys.ENTER)
         sleep(3)
         print("Успешно введена модель авто!")
@@ -242,6 +263,11 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
         sear = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='popup-location/save-button']").click()
         sleep(5)
 
+        """
+        Опять возникает ошибка при нажатии кнопки "ПОказать объявления" !
+        
+        """
+
     def input_price_from_filter(self):
         """
             Находит кнопку ввода "Цена от" и вводит, указанное пользователем значение цены.
@@ -250,12 +276,12 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
         # Нашли кнопку "Цена от"
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='price/from']")
         # Ожидание
-        wait = WebDriverWait(self.browser, timeout=2)
+        #wait = WebDriverWait(self.browser, timeout=2)
         # Нашли кнопку "Цена от" еще раз
-        inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='price/from']").click()
+        #inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='price/from']").click()
         # Ждем пока кнопка не станет доступной для нажатия
-        wait.until(lambda d: inp.is_displayed())
-        inp.send_keys('500000')
+        #wait.until(lambda d: inp.is_displayed())
+        inp.send_keys(self.filter_data.price_one)
         inp.send_keys(Keys.ENTER)
 
     def input_price_to_filter(self):
@@ -264,7 +290,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
             :return:
             """
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='price/to']")
-        inp.send_keys('700000')
+        inp.send_keys(self.filter_data.price_two)
         inp.send_keys(Keys.ENTER)
         print("Успешно введены цены !")
         sleep(2)
@@ -276,7 +302,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
             :return:
             """
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='params[188]/from/input']")
-        inp.send_keys('2005')
+        inp.send_keys(self.filter_data.year_one)
         inp.send_keys(Keys.ENTER)
 
     def input_year_release_to_filter(self):
@@ -286,7 +312,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
             :return:
             """
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='params[188]/to/input']")
-        inp.send_keys('2010')
+        inp.send_keys(self.filter_data.year_two)
         inp.send_keys(Keys.ENTER)
         sleep(3)
         print("Успешно введены года !")
@@ -306,7 +332,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
                                         "//*[@id='app']/div/div[4]/div/div[2]/div[3]/div[1]/div/div[2]/div[1]/form/div[30]/div/div/div/div/div/div/div/div[2]/label/span")
         inp.click()
         sleep(3)
-        print("Частные объвления выбраны")
+        print("Частные объявления выбраны")
 
     def search_button_show_ads(self):
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='search-filters/submit-button']")
@@ -314,9 +340,17 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
         sleep(15)
         print("Идет поиск объявлений по заданным параметрам")
 
+    def switch_url_avito(self):
+        self.browser.switch_to_window(self.browser.window_handles[1])
+        url = self.browser.current_url
+        print(url)
+
+
+
+    #Этот метод вызывает все методы FilterAviroCar
     def activate_func_filter(self):
         self.search_button_input()
-        self.change_city_search()
+        #self.change_city_search()
         self.input_price_from_filter()
         self.input_price_to_filter()
         self.input_year_release_from_filter()
@@ -332,7 +366,6 @@ class AvitoParse(WebdriverChrome):
 
     def __init__(self, url, count=100):
         super().__init__(url)
-        # self.url = url
         self.count = count  # количество страниц на Авито для парсинга
         self.data = []
 
@@ -404,3 +437,6 @@ class AvitoParse(WebdriverChrome):
         with open("cars.json", "w", encoding='utf-8') as f:
             json.dump(self.data, f, ensure_ascii=False, indent=4)
         print(f"Запись произведена успешно.")
+
+    def close_browser(self):
+        self.browser.close()
