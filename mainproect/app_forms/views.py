@@ -60,11 +60,12 @@ class FormManage:
         filter_one.change_number_owners()
         #filter_one.change_private_ads()
         filter_one.search_button_show_ads()
-        # В этом методе я получу новый url-адрес
-        url = filter_one.switch_url_avito()
 
+        # В этом методе я получу новый url-адрес
+        url_current = filter_one.switch_url_avito()
         #Создаем объект Парсинга
-        parsing_one = AvitoParse(url)
+        parsing_one = AvitoParse(url_current, 5)
+        parsing_one.activate_browser()
         parsing_one.parse()
 
 
@@ -341,9 +342,12 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
         print("Идет поиск объявлений по заданным параметрам")
 
     def switch_url_avito(self):
-        self.browser.switch_to_window(self.browser.window_handles[1])
-        url = self.browser.current_url
-        print(url)
+        link = self.browser.current_url
+        return link
+
+        # self.browser.switch_to.window(self.browser.window_handles[1])
+        # url = self.browser.current_url
+        # print(url)
 
 
 
@@ -368,6 +372,13 @@ class AvitoParse(WebdriverChrome):
         super().__init__(url)
         self.count = count  # количество страниц на Авито для парсинга
         self.data = []
+
+    def activate_browser(self):
+        self.connect_proxy()
+        self.connect_options_webdriver()
+        self.include_browser()
+        self.get_url()
+        print("Браузер успешно подключен!")
 
     def __paginator(self):
         # Находим в браузере кнопку "Следующая страница"
@@ -428,6 +439,7 @@ class AvitoParse(WebdriverChrome):
     def parse(self):
         self.__paginator()
         self.__parse_page()
+        #self.browser.close()
 
     def save_data(self):
         """
