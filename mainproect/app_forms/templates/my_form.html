@@ -4,22 +4,17 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" />
-        
-
     </head>
 
     <body style= "background-image:
      url('https://mintcar.ru/wp-content/uploads/2019/04/avto-kotorye-my-uvidim-v-tretem-kvartale-2019.jpg');   
     background-size: cover; background-repeat:no-repeat">
-       
-        
         <div class="container mt-3" >
-         
+
           <h3 align="center" class="text-warning bg-dark" >  Фильтр поиска   </h3>
           <form action="{% url 'get' %}" method="post">
               {% csrf_token %}
 
-           
             <div  class="mb-3"  >
               <label for="exampleInputName" class="form-label" >Марка </label>
               <input type="text" name="brand" class="form-control" id="exampleInputName" aria-describedby="nameHelp" placeholder = "Введите марку автомобиля">

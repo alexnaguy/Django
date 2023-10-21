@@ -1,14 +1,16 @@
 <!DOCTYPE html>
+
 {% load static %}
 <html lang="en">
 <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" />
         <link rel="stylesheet" href="{% static "css/styles.css" %}" />
-    </head>
+</head>
+
 <body>
     <div class text align="center">
-    <h1> Данные приняты в обработку !  </h1>
+    <h3> Полученные данные в файле cars.json  </h3>
     <h5> Данные пользователя:  </h5>
         <p> Марка: {{brand}}  </p>
         <p> Модель: {{model}}  </p>
@@ -18,9 +20,7 @@
         <p> Год до:{{year_two}}  </p>
         <p> Город:{{city}}  </p>
 
-       
-
     </div>
+</body>
 
 
-#
