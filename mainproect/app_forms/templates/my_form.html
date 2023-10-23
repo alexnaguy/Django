@@ -1,17 +1,22 @@
-<!DOCTYPE html>
-{% load static %}
+{% extends "base.html" %}
+
+{% block content %}
+<!--<!DOCTYPE html>-->
+<!--{% load static %}-->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" />
-    </head>
+<!--    <head>-->
+<!--        <meta charset="utf-8">-->
+<!--        <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" />-->
+<!--    </head>-->
+
+
 
     <body style= "background-image:
      url('https://mintcar.ru/wp-content/uploads/2019/04/avto-kotorye-my-uvidim-v-tretem-kvartale-2019.jpg');   
     background-size: cover; background-repeat:no-repeat">
         <div class="container mt-3" >
 
-          <h3 align="center" class="text-warning bg-dark" >  Фильтр поиска   </h3>
+          <h3 align="center" class="text-dark" >  Фильтр поиска   </h3>
           <form action="{% url 'get' %}" method="post">
               {% csrf_token %}
 
@@ -63,4 +68,6 @@
         </div>
         
     </body>
+
 </html>
+{% endblock content %}

@@ -21,12 +21,21 @@ import datetime
 import random
 from fake_useragent import UserAgent
 import re
+import csv
 
 class FormManage:
 
     @staticmethod
     def auto(request):
         return render(request, 'my_form.html')
+
+    @staticmethod
+    def home(request):
+        return render(request, 'home.html')
+
+    @staticmethod
+    def contacts(request):
+        return render(request, 'contacts.html')
 
     @staticmethod
     def get_info(request):
@@ -47,27 +56,34 @@ class FormManage:
             year_two,
             city
         )
-        filter_one = FilterAvitoCar('https://www.avito.ru/', filter_data)
-        # Должен активировать все методы класса FilterAvitoCar:
-        # Собрал все методы WebdriverChrome
-        filter_one.activate_browser()
+        try:
+            filter_one = FilterAvitoCar('https://www.avito.ru/', filter_data)
+            # Должен активировать все методы класса FilterAvitoCar:
+            # Собрал все методы WebdriverChrome
+            filter_one.activate_browser()
 
-        filter_one.search_button_input()
-        #filter_one.change_city_search()
-        filter_one.input_price_from_filter()
-        filter_one.input_price_to_filter()
-        filter_one.input_year_release_from_filter()
-        filter_one.input_year_release_to_filter()
-        filter_one.change_number_owners()
-        #filter_one.change_private_ads()
-        filter_one.search_button_show_ads()
+            filter_one.search_button_input()
+            #filter_one.change_city_search()
+            filter_one.input_price_from_filter()
+            filter_one.input_price_to_filter()
+            filter_one.input_year_release_from_filter()
+            filter_one.input_year_release_to_filter()
+            filter_one.change_number_owners()
+            #filter_one.change_private_ads()
+            filter_one.search_button_show_ads()
 
-        # В этом методе я получу новый url-адрес
-        url_current = filter_one.switch_url_avito()
-        #Создаем объект Парсинга
-        parsing_one = AvitoParse(url_current, 5)
-        parsing_one.activate_browser()
-        parsing_one.parse()
+            # В этом методе я получу новый url-адрес
+            url_current = filter_one.switch_url_avito()
+            #Создаем объект Парсинга
+            parsing_one = AvitoParse(url_current, 5)
+            parsing_one.activate_browser()
+            parsing_one.parse()
+
+        except Exception as ex:
+            print(ex)
+        # finally:
+        #     parsing_one.close_browser()
+
 
 
         return render(request, 'get.html', {"brand": brand,
@@ -78,7 +94,7 @@ class FormManage:
                                             "year_two": year_two,
                                             "city": city
                                             })
-#Вспоомгательный класс- для соединения
+#Вспоомгательный класс-для соединения
 class FilterData:
     def __init__(self, brand, model, price_one, price_two, year_one, year_two, city):
 
@@ -155,9 +171,6 @@ class WebdriverChrome(WebdriverAbstract):
         Подключили вэбдрайвер и применили опции
         """
         self.browser = webdriver.Chrome(options=self.options)
-        #self.browser = webdriver.Chrome(executable_path= "C:\Users\Family\Desktop\Django\mainproect\ app_forms\geckodriver.exe")
-        #self.browser = uc.Chrome()#headless=True, use_subprocess=False
-
 
 
     def get_url(self):
@@ -402,14 +415,16 @@ class AvitoParse(WebdriverChrome):
             if dates in list_date:
                 print(date_car_par)
 
-                data = {
-                    "name": name,
-                    "url": url,
-                    "price": price,
-                    "description": description,
-                    "date": date_car_par
+                # data = {
+                #     "name": name,
+                #     "url": url,
+                #     "price": price,
+                #     "description": description,
+                #     "date": date_car_par
+                #
+                #         }
 
-                        }
+                data = [name, url, price, description, date_car_par]
 
                 self.data.append(data)
         self.save_data()
@@ -420,13 +435,24 @@ class AvitoParse(WebdriverChrome):
         #self.close_browser()
 
     def save_data(self):
+
         """
         Сохраняет записанные данные в формате json.
         :return:
         """
-        with open("cars.json", "w", encoding='utf-8') as f:
-            json.dump(self.data, f, ensure_ascii=False, indent=4)
+        # with open("cars.json", "w", encoding='utf-8') as f:
+        #     json.dump(self.data, f, ensure_ascii=False, indent=4)
+        # print(f"Запись произведена успешно.")
+        count = 0
+        for car in self.data:
+            count +=1
+            with open("cars_ads.csv", "a") as file:
+                writer = csv.writer(file)
+                writer.writerow(car)
         print(f"Запись произведена успешно.")
+
+
 
     def close_browser(self):
         self.browser.close()
+        self.browser.quit()
