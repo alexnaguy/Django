@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from app_forms.views import FormManage
 
+from app_forms.views import RegisterUser
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +26,9 @@ urlpatterns = [
     path('get/', FormManage.get_info, name="get"),
     path('home/', FormManage.home, name = "home"),
     path('contacts/', FormManage.contacts, name = "contacts"),
+    path('register/', RegisterUser.as_view(), name = "register"),
+    path('login/', FormManage.home, name = "login"),
+
+
 
 ]

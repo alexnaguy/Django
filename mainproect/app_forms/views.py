@@ -1,12 +1,15 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 import json
-
+from  django.urls import reverse_lazy
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from abc import ABC, abstractmethod
 import time
 import undetected_chromedriver as uc
+from django.views.generic import CreateView
+
 
 from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions
 from selenium.webdriver.common.keys import Keys
@@ -22,6 +25,14 @@ import random
 from fake_useragent import UserAgent
 import re
 import csv
+
+
+class RegisterUser( CreateView):
+    form_class = UserCreationForm
+    template_name = 'register.html'
+    success_url = reverse_lazy('login')
+
+
 
 class FormManage:
 
@@ -179,8 +190,6 @@ class WebdriverChrome(WebdriverAbstract):
         :return:
         """
         self.browser.get(self.url)
-
-
 
 
 class AbstractClassFilter(ABC):
@@ -415,17 +424,7 @@ class AvitoParse(WebdriverChrome):
             if dates in list_date:
                 print(date_car_par)
 
-                # data = {
-                #     "name": name,
-                #     "url": url,
-                #     "price": price,
-                #     "description": description,
-                #     "date": date_car_par
-                #
-                #         }
-
                 data = [name, url, price, description, date_car_par]
-
                 self.data.append(data)
         self.save_data()
 
@@ -443,9 +442,9 @@ class AvitoParse(WebdriverChrome):
         # with open("cars.json", "w", encoding='utf-8') as f:
         #     json.dump(self.data, f, ensure_ascii=False, indent=4)
         # print(f"Запись произведена успешно.")
-        count = 0
+
         for car in self.data:
-            count +=1
+
             with open("cars_ads.csv", "a") as file:
                 writer = csv.writer(file)
                 writer.writerow(car)
