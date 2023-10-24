@@ -1,4 +1,5 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 import json
@@ -31,6 +32,14 @@ class RegisterUser( CreateView):
     form_class = UserCreationForm
     template_name = 'register.html'
     success_url = reverse_lazy('login')
+
+
+class LoginUser(LoginView):
+    form_class = AuthenticationForm
+    template_name = 'login.html'
+
+    def get_success_url(self):
+        return reverse_lazy('home')
 
 
 

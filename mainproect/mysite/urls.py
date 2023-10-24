@@ -20,6 +20,8 @@ from app_forms.views import FormManage
 
 from app_forms.views import RegisterUser
 
+from app_forms.views import LoginUser
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auto/', FormManage.auto, name="auto"),
@@ -27,7 +29,7 @@ urlpatterns = [
     path('home/', FormManage.home, name = "home"),
     path('contacts/', FormManage.contacts, name = "contacts"),
     path('register/', RegisterUser.as_view(), name = "register"),
-    path('login/', FormManage.home, name = "login"),
+    path('login/', LoginUser.as_view(), name = "login"),
 
 
 
