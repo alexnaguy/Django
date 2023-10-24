@@ -1,34 +1,23 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
-import json
-from  django.urls import reverse_lazy
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from abc import ABC, abstractmethod
-import time
-import undetected_chromedriver as uc
 from django.views.generic import CreateView
-
 
 from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from time import sleep
-import datetime
-import random
 from fake_useragent import UserAgent
-import re
 import csv
 
 
-class RegisterUser( CreateView):
+class RegisterUser(CreateView):
     form_class = UserCreationForm
     template_name = 'register.html'
     success_url = reverse_lazy('login')
@@ -40,7 +29,6 @@ class LoginUser(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('home')
-
 
 
 class FormManage:
@@ -101,10 +89,6 @@ class FormManage:
 
         except Exception as ex:
             print(ex)
-        # finally:
-        #     parsing_one.close_browser()
-
-
 
         return render(request, 'get.html', {"brand": brand,
                                             "model": model,
@@ -128,8 +112,6 @@ class FilterData:
 
 
 class WebdriverAbstract(ABC):
-    # Абстрактный - потому что можно определить другой
-    # браузер и вебдрайвер соответственно
     @abstractmethod
     def connect_proxy(self):
         """
@@ -178,7 +160,6 @@ class WebdriverChrome(WebdriverAbstract):
         """
         # Запуск браузера Chrome
         self.options = webdriver.ChromeOptions()
-        #self.options.set_preference('dom.webdriver.enabled', False)
 
         # Добавил опции для вэбдрайвера
         self.options.add_argument(f"user-agent= {self.user_agent.chrome}")
@@ -186,7 +167,6 @@ class WebdriverChrome(WebdriverAbstract):
         self.options.add_argument("--disable-blink-features=AutomationControlled")
 
     def include_browser(self):
-
         """
         Подключили вэбдрайвер и применили опции
         """
@@ -256,7 +236,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
     def search_button_input(self):
         """
         Находит главную кнопку поиска на сайте Авито,куда затем передаются параметры поиска.
-        :return:
+        :return: None
         """
         # Нашли кнопку ввода марки и модели автомобиля
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='search-form/suggest']")
@@ -270,7 +250,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
         """
         Находит кнопку "Изменить город". Меняет город, на указанный пользователем и
         делает поиск по Объявлениям.
-        :return:
+        :return: None
         """
         # Нашли кнопку "Поменять город"
         input = self.browser.find_element(By.CSS_SELECTOR, "[class='desktop-nev1ty']").click()
@@ -294,7 +274,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
     def input_price_from_filter(self):
         """
         Находит кнопку ввода "Цена от" и вводит, указанное пользователем значение цены.
-        :return:
+        :return: None
         """
         # Нашли кнопку "Цена от"
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='price/from']")
@@ -310,7 +290,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
     def input_price_to_filter(self):
         """
         Находит кнопку ввода "Цена до" и вводит свое значение цены.
-        :return:
+        :return: None
         """
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='price/to']")
         inp.send_keys(self.filter_data.price_two)
@@ -321,8 +301,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
     def input_year_release_from_filter(self):
         """
          Находит кнопку ввода "Год выпуска от" и вводит свое значение года.
-
-        :return:
+        :return: None
         """
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='params[188]/from/input']")
         inp.send_keys(self.filter_data.year_one)
@@ -332,7 +311,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
         """
         Находит кнопку ввода "Год выпуска оо" и вводит свое значение года.
 
-        :return:
+        :return: None
         """
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='params[188]/to/input']")
         inp.send_keys(self.filter_data.year_two)
@@ -343,7 +322,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
     def change_number_owners(self):
         """
         Выбирает число владельцев автомобиля "Не более двух".
-        :return:
+        :return: None
         """
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='option(19984)']")
         inp.click()
@@ -351,19 +330,30 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
         print("Успешно выбрано число  владельцев!")
 
     def change_private_ads(self):
+        """
+        Выбирает "Частные объявления".
+        :return: None
+        """
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='user(1)']")
         inp.click()
         sleep(3)
         print("Частные объявления выбраны")
 
     def search_button_show_ads(self):
-
+        """
+        Нажимает кнопку "Показать объявления".
+        :return: None
+        """
         inp = self.browser.find_element(By.CSS_SELECTOR, "[data-marker='search-filters/submit-button']")
         inp.click()
         sleep(15)
         print("Идет поиск объявлений по заданным параметрам")
 
     def switch_url_avito(self):
+        """
+        Перемещает на другую вкладку браузера.
+        :return: None
+        """
         link = self.browser.current_url
         return link
 
@@ -383,7 +373,7 @@ class FilterAvitoCar(WebdriverChrome, AbstractClassFilter, FormManage):
 class AvitoParse(WebdriverChrome):
     def __init__(self, url, count=100):
         super().__init__(url)
-        self.count = count  # количество страниц на Авито для парсинга
+        self.count = count
         self.data = []
 
     def activate_browser(self):
@@ -409,7 +399,7 @@ class AvitoParse(WebdriverChrome):
         Берет все объвления на одной странице и парсит (собирает данные) для каждого значения:
         name, description, url, price, date_car.
         Затем собирает их в список и сохраняет в формате json.
-        :return:
+        :return: List
         """
 
         # Находим все объявления
@@ -424,16 +414,12 @@ class AvitoParse(WebdriverChrome):
             price = price + " " + "руб."
             date_car_par = title.find_element(By.CSS_SELECTOR, "[data-marker='item-date/tooltip/reference']").text
 
-            # minute = re.compile('минут')
-            # second = re.compile('секунд')
-            # hours = re.compile('час')
-            # list_date = [second, minute, hours]
             list_date = ["секунд", "секунды", "минут", "минуту", "минуты", "час", "часа", "часов" ]
             dates = date_car_par.split()[1]
             if dates in list_date:
                 print(date_car_par)
 
-                data = [name, url, price, description, date_car_par]
+                data = (name, url, price, description, date_car_par)
                 self.data.append(data)
         self.save_data()
 
@@ -443,17 +429,11 @@ class AvitoParse(WebdriverChrome):
         #self.close_browser()
 
     def save_data(self):
-
         """
         Сохраняет записанные данные в формате json.
         :return:
         """
-        # with open("cars.json", "w", encoding='utf-8') as f:
-        #     json.dump(self.data, f, ensure_ascii=False, indent=4)
-        # print(f"Запись произведена успешно.")
-
         for car in self.data:
-
             with open("cars_ads.csv", "a") as file:
                 writer = csv.writer(file)
                 writer.writerow(car)

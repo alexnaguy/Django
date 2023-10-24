@@ -24,7 +24,7 @@ from app_forms.views import LoginUser
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auto/', FormManage.auto, name="auto"),
+    path('', FormManage.auto, name="auto"),
     path('get/', FormManage.get_info, name="get"),
     path('home/', FormManage.home, name = "home"),
     path('contacts/', FormManage.contacts, name = "contacts"),
