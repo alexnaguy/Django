@@ -30,6 +30,8 @@ urlpatterns = [
     path('contacts/', FormManage.contacts, name = "contacts"),
     path('register/', RegisterUser.as_view(), name = "register"),
     path('login/', LoginUser.as_view(), name = "login"),
+    path('table/', FormManage.pars_table, name = "table"),
+
 
 
 

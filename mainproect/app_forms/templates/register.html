@@ -1,13 +1,24 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 
 {% block content %}
 <!--<h1>{{title}}</h1>-->
+<body style= "background-image:
+     url('https://images.wallpaperscraft.ru/image/single/mashina_sportkar_neon_157154_1024x768.jpg');
+    background-size: cover; background-repeat:no-repeat">
 
-<form method="post">
+<div class="container mt-5 w-50 p-3 border rounded-3 border-2 border-primary-subtle">
+<!--<form action="{% url 'register' %}" method="post">-->
+<form method="post"  action="" >
+
+
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
+
     <button type="submit">Регистрация</button>
 </form>
+
+</div>
 
 {% endblock %}

@@ -46,6 +46,10 @@ class FormManage:
         return render(request, 'contacts.html')
 
     @staticmethod
+    def pars_table(request):
+        return render(request, 'pars_table.html')
+
+    @staticmethod
     def get_info(request):
         brand = request.POST.get("brand")
         model = request.POST.get("model")
@@ -393,7 +397,7 @@ class AvitoParse(WebdriverChrome):
             self.count -= 1
 
     # Парсинг одной страницы
-    def __parse_page(self):
+    def __parse_page(self, request):
 
         """
         Берет все объвления на одной странице и парсит (собирает данные) для каждого значения:
@@ -418,10 +422,17 @@ class AvitoParse(WebdriverChrome):
             dates = date_car_par.split()[1]
             if dates in list_date:
                 print(date_car_par)
+                data = [name, url, price, description, date_car_par]
 
-                data = (name, url, price, description, date_car_par)
                 self.data.append(data)
+
         self.save_data()
+        return render(request, 'pars_table.html')
+
+
+
+        
+
 
     def parse(self):
         self.__paginator()
