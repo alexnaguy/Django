@@ -16,6 +16,9 @@ from time import sleep
 from fake_useragent import UserAgent
 import csv
 
+from .models import Articles
+from .forms import ArticlesForm
+
 
 class RegisterUser(CreateView):
     form_class = UserCreationForm
@@ -46,8 +49,22 @@ class FormManage:
         return render(request, 'contacts.html')
 
     @staticmethod
-    def pars_table(request):
-        return render(request, 'pars_table.html')
+    def news(request):
+        news = Articles.objects.order_by('-date')
+        return render(request, 'news.html', {"news": news} )
+
+    @staticmethod
+    def create_form(request):
+        form = ArticlesForm()
+
+        data = {
+            "form": form
+
+        }
+
+        return render(request, 'create_form.html', data)
+
+
 
     @staticmethod
     def get_info(request):
@@ -90,6 +107,11 @@ class FormManage:
             parsing_one = AvitoParse(url_current, 5)
             parsing_one.activate_browser()
             parsing_one.parse()
+
+
+
+
+
 
         except Exception as ex:
             print(ex)
@@ -143,7 +165,7 @@ class WebdriverAbstract(ABC):
 
 
 class WebdriverChrome(WebdriverAbstract):
-    # Прописать параметры класса- self.options , self.browser
+
     user_agent: UserAgent()
     options: webdriver.ChromeOptions()
     browser: webdriver.Chrome()
@@ -391,18 +413,19 @@ class AvitoParse(WebdriverChrome):
         # Находим в браузере кнопку "Следующая страница"
         while self.browser.find_elements(By.CSS_SELECTOR,"[data-marker='pagination-button/next']")\
             and self.count > 0:
-            self.__parse_page()
+            self.parse_page()
             # Если есть делаем клик на кнопку Next
             self.browser.find_element(By.CSS_SELECTOR, "[data-marker='pagination-button/next']").click()
             self.count -= 1
 
     # Парсинг одной страницы
-    def __parse_page(self, request):
+
+    def parse_page(self):
 
         """
         Берет все объвления на одной странице и парсит (собирает данные) для каждого значения:
         name, description, url, price, date_car.
-        Затем собирает их в список и сохраняет в формате json.
+        Затем собирает их в список и сохраняет в формате csv.
         :return: List
         """
 
@@ -425,9 +448,19 @@ class AvitoParse(WebdriverChrome):
                 data = [name, url, price, description, date_car_par]
 
                 self.data.append(data)
-
+        #my_cars = self.data
         self.save_data()
-        return render(request, 'pars_table.html')
+        return self.data
+        # return render(request, 'pars_table.html', my_cars )
+
+    # @staticmethod
+    # def func(request):
+    #     my_cars = AvitoParse.parse_page
+    #
+    #     return render(request, 'pars_table.html', my_cars)
+
+
+
 
 
 
@@ -436,7 +469,7 @@ class AvitoParse(WebdriverChrome):
 
     def parse(self):
         self.__paginator()
-        self.__parse_page()
+        self.parse_page()
         #self.close_browser()
 
     def save_data(self):

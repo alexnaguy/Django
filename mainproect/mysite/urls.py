@@ -20,7 +20,7 @@ from app_forms.views import FormManage
 
 from app_forms.views import RegisterUser
 
-from app_forms.views import LoginUser
+from app_forms.views import LoginUser, AvitoParse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,7 +30,11 @@ urlpatterns = [
     path('contacts/', FormManage.contacts, name = "contacts"),
     path('register/', RegisterUser.as_view(), name = "register"),
     path('login/', LoginUser.as_view(), name = "login"),
-    path('table/', FormManage.pars_table, name = "table"),
+    path('news/', FormManage.news, name = "news"),
+    path('create/', FormManage.create_form, name = "create"),
+
+
+    # path('table/', AvitoParse.func , name = "table"),
 
 
 

@@ -2,48 +2,10 @@
 
 {% block content %}
 
-<table class="table table-dark"">
-  <thead>
-    <tr>
-      <th scope="col">№</th>
-      <th scope="col">Название</th>
-      <th scope="col">Сылка</th>
-      <th scope="col">Цена</th>
-      <th scope="col">Описание</th>
-      <th scope="col">Дата</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for items in {{self.data}}} %}
 
-    <tr>
-      <th scope="row">1</th>
-      <td>{{items[0]}}</td>
-      <td>{{items[1]}}</td>
-      <td>{{items[2]}}</td>
-      <td>{{items[3]}}</td>
-      <td>{{items[4]}}</td>
-    </tr>
+<!--  {% for car in {{my_cars}} %}-->
+<!--  <p> {{car}} </p>-->
 
-   {% endfor %}
-
-
-  </tbody>
-</table>
-
-<!--    <tr>-->
-<!--      <th scope="row">2</th>-->
-<!--      <td>Jacob</td>-->
-<!--      <td>Thornton</td>-->
-<!--      <td>@fat</td>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--      <th scope="row">3</th>-->
-<!--      <td>Larry</td>-->
-<!--      <td>the Bird</td>-->
-<!--      <td>@twitter</td>-->
-<!--    </tr>-->
-
-
+<!--   {% endfor %}-->
 
 {% endblock content %}

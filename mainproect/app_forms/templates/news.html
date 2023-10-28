@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="features">
+        <h1> Новости на сайте </h1>
+        {%if news %}
+            {%for el in news %}
+                <div class="alert alert-warning">
+                    <h3> {{el.tittle}} </h3>
+                    <p> {{el.anons}} </p>
+
+                </div>
+            {% endfor %}
+        {% else %}
+        <p> У вас нет записей   </p>
+         {%endif%}
+
+    </div>
+
+<a href="{% url 'create' %}">  <li> <button class="btn btn-info"> Добавить статью </button> </li> </a>
+
+
+{% endblock content %}

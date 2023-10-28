@@ -9,3 +9,26 @@
 .menu li a:hover{
     color: #198754 !important;
 }
+
+
+.features{
+    float: left;
+    color: #000000;
+    margin-top: 10px;
+    text-align: center;
+    width: 75%;
+
+
+}
+.features h1 {font-size: 30px;}
+.features p {max-width: 400px; margin: 20px auto}
+
+.alert-warning {
+    float: left;
+    clear: both;
+    width: 400px;
+    margin: 20px 34%;
+    text-align: left;
+
+
+}
