@@ -5,6 +5,7 @@ class Articles(models.Model):
     anons = models.CharField('Анонс', max_length=250)
     full_text = models.TextField('Текст')
     date = models.DateTimeField("Дата публикации")
+    image = models.ImageField(upload_to='images', default= 'Null')
 
     def __str__(self):
         return self.tittle

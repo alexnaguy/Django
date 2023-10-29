@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from abc import ABC, abstractmethod
 from django.views.generic import CreateView
 
@@ -55,10 +55,22 @@ class FormManage:
 
     @staticmethod
     def create_form(request):
+        error = ''
+        if request.method == "POST":
+            form = ArticlesForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('news')
+
+            else:
+                error = "Форма не является верной"
+
+
         form = ArticlesForm()
 
         data = {
-            "form": form
+            "form": form,
+            "error": error,
 
         }
 
