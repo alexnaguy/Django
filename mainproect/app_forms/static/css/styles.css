@@ -32,3 +32,13 @@
 
 
 }
+
+.container mt-3 {
+    float: left;
+    clear: both;
+    width: 500px;
+    margin: 20px 34%;
+    text-align: left;
+
+
+}

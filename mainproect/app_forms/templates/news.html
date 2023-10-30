@@ -6,13 +6,19 @@
     background-size: cover; background-repeat:no-repeat">
 
     <div class="features">
-        <h1> Новости на сайте </h1>
+        <h1 style="color: wheat"> Новости на сайте </h1>
         {%if news %}
             {%for el in news %}
                 <div class="alert alert-warning">
                     <h3> {{el.tittle}} </h3>
                     <p> {{el.anons}} </p>
+
                     <p> {{el.date}} </p>
+
+                    <p> {{el.image}} </p>
+
+
+
 
                 </div>
             {% endfor %}

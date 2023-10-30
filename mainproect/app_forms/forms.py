@@ -1,5 +1,5 @@
 from .models import Articles
-from django.forms import ModelForm, TextInput, Textarea, DateTimeInput
+from django.forms import ModelForm, TextInput, Textarea, DateTimeInput, ImageField
 
 
 class ArticlesForm(ModelForm):
@@ -7,7 +7,7 @@ class ArticlesForm(ModelForm):
 
     class Meta:
         model = Articles
-        fields = ['tittle', 'anons', 'full_text', 'date']
+        fields = ['tittle', 'anons', 'full_text', 'image', 'date']
 
         widgets = {
 
@@ -31,6 +31,7 @@ class ArticlesForm(ModelForm):
                 'class': "form-control",
                 "placeholder": "Текст статьи"
             }),
+
 
 
         }

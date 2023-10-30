@@ -38,10 +38,12 @@ urlpatterns = [
     path('login/', LoginUser.as_view(), name = "login"),
     path('news/', FormManage.news, name = "news"),
     path('create/', FormManage.create_form, name = "create"),
+    path('table/', AvitoParse.parse_table, name = "table"),
+
 
 ]
 
 
 if settings.DEBUG:
-        urlpatterns += static(settings.MEDIA_URL,
-                              document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from abc import ABC, abstractmethod
 from django.views.generic import CreateView
+from .models import Articles, Cars
+from .forms import ArticlesForm
 
 from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions
 from selenium.webdriver.common.keys import Keys
@@ -16,8 +18,7 @@ from time import sleep
 from fake_useragent import UserAgent
 import csv
 
-from .models import Articles
-from .forms import ArticlesForm
+
 
 
 class RegisterUser(CreateView):
@@ -57,7 +58,7 @@ class FormManage:
     def create_form(request):
         error = ''
         if request.method == "POST":
-            form = ArticlesForm(request.POST)
+            form = ArticlesForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
                 return redirect('news')
@@ -65,15 +66,12 @@ class FormManage:
             else:
                 error = "Форма не является верной"
 
-
         form = ArticlesForm()
-
         data = {
             "form": form,
             "error": error,
 
         }
-
         return render(request, 'create_form.html', data)
 
 
@@ -119,6 +117,7 @@ class FormManage:
             parsing_one = AvitoParse(url_current, 5)
             parsing_one.activate_browser()
             parsing_one.parse()
+            parsing_one.parse_table()
 
 
 
@@ -128,14 +127,7 @@ class FormManage:
         except Exception as ex:
             print(ex)
 
-        return render(request, 'get.html', {"brand": brand,
-                                            "model": model,
-                                            "price_one": price_one,
-                                            "price_two": price_two,
-                                            "year_one": year_one,
-                                            "year_two": year_two,
-                                            "city": city
-                                            })
+        return render(request, 'pars_table.html')
 #Вспоомгательный класс-для соединения
 class FilterData:
     def __init__(self, brand, model, price_one, price_two, year_one, year_two, city):
@@ -458,25 +450,19 @@ class AvitoParse(WebdriverChrome):
             if dates in list_date:
                 print(date_car_par)
                 data = [name, url, price, description, date_car_par]
-
+                car = Cars(name=data[0], url=data[1], price=data[2], description=data[3], date_car_par=data[4])
+                car.save()
                 self.data.append(data)
+
         #my_cars = self.data
         self.save_data()
         return self.data
-        # return render(request, 'pars_table.html', my_cars )
 
-    # @staticmethod
-    # def func(request):
-    #     my_cars = AvitoParse.parse_page
-    #
-    #     return render(request, 'pars_table.html', my_cars)
+    @staticmethod
+    def parse_table(request):
+        cars = Cars.objects.order_by('-date')
 
-
-
-
-
-
-        
+        return render(request, 'pars_table.html', {"cars": cars})
 
 
     def parse(self):
