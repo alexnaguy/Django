@@ -76,6 +76,8 @@ class FormManage:
 
 
 
+
+
     @staticmethod
     def get_info(request):
         brand = request.POST.get("brand")
@@ -117,10 +119,6 @@ class FormManage:
             parsing_one = AvitoParse(url_current, 5)
             parsing_one.activate_browser()
             parsing_one.parse()
-            parsing_one.parse_table()
-
-
-
 
 
 
@@ -128,6 +126,9 @@ class FormManage:
             print(ex)
 
         return render(request, 'pars_table.html')
+
+
+
 #Вспоомгательный класс-для соединения
 class FilterData:
     def __init__(self, brand, model, price_one, price_two, year_one, year_two, city):
@@ -460,7 +461,7 @@ class AvitoParse(WebdriverChrome):
 
     @staticmethod
     def parse_table(request):
-        cars = Cars.objects.order_by('-date')
+        cars = Cars.objects.all()
 
         return render(request, 'pars_table.html', {"cars": cars})
 

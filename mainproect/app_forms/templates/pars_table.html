@@ -2,34 +2,42 @@
 
 {% block content %}
 
+<table class="table table-dark table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Имя</th>
+      <th scope="col">Фамилия</th>
+      <th scope="col">Обращение</th>
+      <th scope="col">Фамилия</th>
+      <th scope="col">Обращение</th>
+
+    </tr>
+  </thead>
+
+      <tbody>
+
+      {% for el in cars %}
+
+            <tr>
+            <th scope="row">*</th>
+            <td> {{el.name }}  </td>
+            <td> {{el.url}}   </td>
+            <td> {{el.price}}   </td>
+            <td> {{el.description }}  </td>
+            <td> {{el.date_car_par}}   </td>
+
+            </tr>
+
+
+
+      {% endfor %}
+
+      </tbody>
+
+</table>
+
 
 
 
 {% endblock content %}
-
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Название</th>
-      <th scope="col">Сылка</th>
-      <th scope="col">Цена</th>
-      <th scope="col">Описание</th>
-      <th scope="col">Дата</th>
-
-    </tr>
-  </thead>
-  <tbody>
-    {% for car in {{cars}} %}
-    <tr>
-      <th scope="row">1</th>
-      <td>{{car.name}}</td>
-      <td>{{car.url}}</td>
-      <td>{{car.price}}</td>
-      <td>{{car.description}}</td>
-      <td>{{car.date_car_par}}</td>
-
-    </tr>
-
-  </tbody>
-</table>
